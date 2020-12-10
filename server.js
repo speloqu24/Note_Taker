@@ -16,12 +16,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
 
-// HTML GET
+// HTML GET - returns the notes.html
 app.get("/notes", (req, res) =>
   res.sendFile(path.join(__dirname, "./public/notes.html"))
 );
 
-// API GET
+// API GET - Gets all saved notes and returns them as JSON
 app.get("/api/notes", (req, res) => {
   readFileAsync("./db/db.json", "utf8").then((notes) => {
     let pNotes = JSON.parse(notes);
@@ -60,6 +60,7 @@ app.delete("/api/notes/:id", (req, res) => {
   });
 });
 
+// HTML GET - returns the index.html
 // CATCH ALL - If nothing is loaded/chosen
 app.get("*", (req, res) =>
   res.sendFile(path.join(__dirname, "./public/index.html"))
