@@ -1,3 +1,4 @@
+// ACCESS TO EXPRESS, PATH, FS
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
@@ -5,13 +6,20 @@ const fs = require("fs");
 // Gives each note a UNIQUE ID (npm package)
 const { v4: uuidv4 } = require("uuid");
 
+// ACCESS TO UTILITY FUNCTIONS
 const util = require("util");
+
+//READ AND WRITE FUNCTIONS
 const readFileAsync = util.promisify(fs.readFile);
 const writeFileAsync = util.promisify(fs.writeFile);
 
+//CREATE SERVER
 const app = express();
+
+//SETS PORTS FOR SERVER
 const PORT = process.env.PORT || 3070;
 
+// DATA PARSING
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
@@ -60,10 +68,10 @@ app.delete("/api/notes/:id", (req, res) => {
   });
 });
 
-// HTML GET - returns the index.html
-// CATCH ALL - If nothing is loaded/chosen
+// HTML GET - returns the index.html This is a CATCH ALL - If nothing is loaded/chosen
 app.get("*", (req, res) =>
   res.sendFile(path.join(__dirname, "./public/index.html"))
 );
 
+// SERVER LISTENER
 app.listen(PORT, () => console.log(`${PORT} is listening`));
